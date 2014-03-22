@@ -1,0 +1,15 @@
+target
+.svn
+*.log
+*.log.?
+.settings
+.project
+.classpath
+.factorypath
+hibernate.properties
+maven-install.log
+.DS_Store
+rebel.xml
+bin
+eduario/backend/entities/dependency-reduced-pom.xml
+anonimisatie/ORACLE_DDL
