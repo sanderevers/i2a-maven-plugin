@@ -43,14 +43,14 @@ import org.sonatype.plexus.build.incremental.BuildContext;
 public class I2A extends AbstractMojo
 {
 
-	@Parameter(alias = "dictionary")
-	private String dictionaryFilename;
+	@Parameter
+	private String dictionary;
 
-	@Parameter(alias = "source", required = true)
-	private String sourceFilename;
+	@Parameter(required = true)
+	private String source;
 	
-	@Parameter(alias = "target", required = true)
-	private String targetFilename;
+	@Parameter(required = true)
+	private String target;
 	
 //	@Parameter(property="basedir")
 //	private String projectBasedir;
@@ -67,8 +67,8 @@ public class I2A extends AbstractMojo
 	private static final String DEFAULT_DICT_FILE = "names.txt";
 
 	protected Reader createDictionaryFileReader() throws FileNotFoundException, UnsupportedEncodingException {
-		if (dictionaryFilename != null)
-			return new FileReader(dictionaryFilename);
+		if (dictionary != null)
+			return new FileReader(dictionary);
 		else
 			return new InputStreamReader(I2A.class.getResourceAsStream(DEFAULT_DICT_FILE), "UTF-8");
 	}
@@ -147,22 +147,22 @@ public class I2A extends AbstractMojo
 	{		
 		Properties propsNL = new Properties();
 		try {
-			File sourceFile = new File(sourceFilename);
+			File sourceFile = new File(source);
 			if (!buildContext.hasDelta(sourceFile))
 				return;	
-			getLog().info("source: "+sourceFilename);
+			getLog().info("source: "+source);
 			Reader reader =	new InputStreamReader(new FileInputStream(sourceFile), "ISO-8859-1");
 			propsNL.load(reader);
 			reader.close();
 		} catch (IOException e) {
-			throw new MojoExecutionException("Error reading source file: "+sourceFilename, e);
+			throw new MojoExecutionException("Error reading source file: "+source, e);
 		}
 		
 		List<String> dictionary;
 		try {
 			dictionary = readDictionary();
 		} catch (IOException e) {
-			throw new MojoExecutionException("Error reading dictionary file: "+sourceFilename, e);
+			throw new MojoExecutionException("Error reading dictionary file: "+source, e);
 		}	
 
 		Properties propsSV = new Properties()
@@ -191,9 +191,9 @@ public class I2A extends AbstractMojo
 
 		
 		try {
-			File targetFile = new File(targetFilename);
+			File targetFile = new File(target);
 			OutputStream os = buildContext.newFileOutputStream(targetFile);
-			if (targetFilename.toLowerCase().endsWith(".xml"))
+			if (target.toLowerCase().endsWith(".xml"))
 				propsSV.storeToXML(os, "");
 			else {
 				Writer writer = new OutputStreamWriter(os, "UTF-8");
@@ -201,10 +201,10 @@ public class I2A extends AbstractMojo
 			}
 			os.close();
 		} catch (IOException e) {
-			throw new MojoExecutionException("Error writing target file: "+targetFilename, e);
+			throw new MojoExecutionException("Error writing target file: "+target, e);
 		}	
 
-		getLog().info("Output stored in " + targetFilename);
+		getLog().info("Output stored in " + target);
 
 
 	}

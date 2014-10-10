@@ -1,0 +1,40 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>nl.topicus.plugins.</groupId>
+  <artifactId>i2a-project-to-test</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+  <name>Test MyMojo</name>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.11</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>i2a-maven-plugin</artifactId>
+        <configuration>
+            <source>src/test/resources/unit/test.properties</source>
+		    <target>target/test_sv.properties</target>
+        </configuration>
+            <executions>
+                <execution>
+                    <phase>process-resources</phase>
+		                <goals>
+		                   <goal>translate</goal>
+		                </goals>
+		        </execution>
+            </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>
