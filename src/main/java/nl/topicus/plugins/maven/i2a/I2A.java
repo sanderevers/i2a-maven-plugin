@@ -52,9 +52,6 @@ public class I2A extends AbstractMojo
 	@Parameter(required = true)
 	private String target;
 	
-//	@Parameter(property="basedir")
-//	private String projectBasedir;
-		
 	@Component
 	private BuildContext buildContext;
 	
@@ -62,7 +59,7 @@ public class I2A extends AbstractMojo
 
 	// Match word sequences (with words consisting of alphabetic letters), these will be translated.
 	// Also match "{...}" parameters, these will be skipped.
-	protected static Pattern phrasePattern = Pattern.compile("(\\{.*?\\})|([\\s\\p{IsAlphabetic}]+)", Pattern.UNICODE_CHARACTER_CLASS);
+	protected static Pattern phrasePattern = Pattern.compile("\\{.*?\\}|<.*?>|([\\s\\p{IsAlphabetic}]+)", Pattern.UNICODE_CHARACTER_CLASS);
 	
 	private static final String DEFAULT_DICT_FILE = "names.txt";
 
@@ -128,9 +125,9 @@ public class I2A extends AbstractMojo
 		while (matcher.find())
 		{
 			sb.append(phrase, last, matcher.start());
-			if (matcher.group(2) != null)
+			if (matcher.group(1) != null)
 			{
-				sb.append(translateWords(matcher.group(2), dictionary));
+				sb.append(translateWords(matcher.group(1), dictionary));
 				last = matcher.end();
 			}
 			else
