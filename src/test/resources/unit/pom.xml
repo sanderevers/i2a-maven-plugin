@@ -23,8 +23,9 @@
       <plugin>
         <artifactId>i2a-maven-plugin</artifactId>
         <configuration>
+            <dictionary>src/test/resources/unit/dictionary_ar.txt</dictionary>
             <source>src/test/resources/unit/test.properties</source>
-		    <target>target/test_sv.properties</target>
+		    <target>target/test_ar.properties</target>
         </configuration>
             <executions>
                 <execution>
