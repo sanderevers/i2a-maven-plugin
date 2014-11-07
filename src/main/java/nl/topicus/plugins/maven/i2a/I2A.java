@@ -34,7 +34,15 @@ import org.sonatype.plexus.build.incremental.BuildContext;
 
 /**
  * Create a "translation" of a Wicket .properties file, replacing words in property values
- * by random words from a dictionary. Parameters like ${name} and {0} are preserved.  
+ * by random words from a dictionary. Parameters like ${name} and {0} are preserved.
+ * 
+ * Input:
+ *   <source>filename</source>         : properties file, ISO-8859-1 encoded (per Java standard)
+ *   <dictionary>filename</dictionary> : UTF-8 file, one phrase (words separated by spaces) per line
+ * Output:
+ *   <target>filename</target>         : properties file, ISO-8859-1 encoded by default,
+ *   										UTF-8 encoded if filename ends in ".utf8.properties" (Wicket feature)
+ *   									    XML encoded if filename ends in ".xml"
  * 
  * @author Sander Evers
  * 
@@ -192,9 +200,11 @@ public class I2A extends AbstractMojo
 			OutputStream os = buildContext.newFileOutputStream(targetFile);
 			if (target.toLowerCase().endsWith(".xml"))
 				propsSV.storeToXML(os, "");
-			else {
+			else if (target.toLowerCase().endsWith(".utf8.properties")){
 				Writer writer = new OutputStreamWriter(os, "UTF-8");
-				propsSV.store(writer,"");	
+				propsSV.store(writer,"");
+			} else {
+				propsSV.store(os,"");
 			}
 			os.close();
 		} catch (IOException e) {
@@ -202,7 +212,6 @@ public class I2A extends AbstractMojo
 		}	
 
 		getLog().info("Output stored in " + target);
-
 
 	}
 
