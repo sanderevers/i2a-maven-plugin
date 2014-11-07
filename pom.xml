@@ -21,11 +21,6 @@
 			<url>http://repo-onderwijs.topicus.local/artifactory/libs-releases-local</url>
 			<uniqueVersion>false</uniqueVersion>
 		</repository>
-		<snapshotRepository>
-			<id>topicus-repo</id>
-			<url>http://repo-onderwijs.topicus.local/artifactory/libs-snapshots-local</url>
-			<uniqueVersion>false</uniqueVersion>
-		</snapshotRepository>
 	</distributionManagement>
 
 	<dependencyManagement>
